@@ -9,9 +9,20 @@ import './App.css';
 
 class App extends Component {
   state = {
-    contacts: initialContacts,
+    contacts: [],
     filterName: '',
   };
+
+  componentDidMount() {
+    localStorage.setItem('contacts', JSON.stringify(initialContacts));
+
+    const storageContacts = localStorage.getItem('contacts');
+    this.setState({ contacts: JSON.parse(storageContacts) });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    localStorage.setItem('contacts', JSON.stringify(this.state));
+  }
 
   deleteContact = contactId =>
     this.setState(prevState => ({
